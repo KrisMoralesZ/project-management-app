@@ -5,14 +5,16 @@ class Organizations::RegistrationsController < Devise::RegistrationsController
     build_resource(sign_up_params)
 
     if resource.save
+      ActsAsTenant.with_tenant(resource) do
+        User.create!(
+          email: resource.email,
+          password: params[:organization][:password],
+          )
+      end
+
+      redirect_to root_url(subdomain: resource.subdomain), allow_other_host: true, notice: "Organization created successfully."
       sign_up(resource_name, resource)
 
-      respond_to do |format|
-        format.html { redirect_to root_path, notice: "Organization created." }
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("form", partial: "organizations/success", locals: { organization: resource })
-        end
-      end
     else
       clean_up_passwords resource
       set_minimum_password_length
@@ -20,7 +22,11 @@ class Organizations::RegistrationsController < Devise::RegistrationsController
       respond_to do |format|
         format.html { render :new, status: :unprocessable_entity }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("form", partial: "organizations/errors", locals: { resource: resource })
+          render turbo_stream: turbo_stream.replace(
+            "form",
+            partial: "organizations/errors",
+            locals: { resource: resource }
+          )
         end
       end
     end
@@ -29,6 +35,9 @@ class Organizations::RegistrationsController < Devise::RegistrationsController
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [ :organization_name, :subdomain ])
+    devise_parameter_sanitizer.permit(
+      :sign_up,
+      keys: [ :organization_name, :subdomain ]
+    )
   end
 end

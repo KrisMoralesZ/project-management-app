@@ -1,0 +1,41 @@
+%section.dashboard
+  %h1 Welcome to Administration Panel
+
+  %p
+    Organization:
+    %strong= current_organization.organization_name
+
+  %p
+    Subdomain:
+    %code= current_organization.subdomain
+
+  %p
+    Session started by:
+    -# %strong= current_user.name
+    -# (rol: #{current_user.role})
+
+  %hr/
+
+  %h2 Users in this organization
+  %h4 Add Users
+  = render "new_user_form"
+
+  - if @users.present?
+    %table
+      %thead
+        %tr
+          %th Name
+          %th Email
+          %th Rol
+          %th Actions
+      %tbody
+        - @users.each do |user|
+          %tr
+            %td= "#{user.name} #{user.last_name}"
+            %td= user.email
+            %td= user.role
+            %td
+              - unless user == current_user
+                = button_to 'Delete', user_path(user), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger"
+  - else
+    %p You dont have users in this organization
