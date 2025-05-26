@@ -3,7 +3,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     build_resource(sign_up_params)
 
     organization = Organization.create(
-      name: params[:user][:organization_name],
+      organization_name: params[:user][:organization_name],
       subdomain: params[:user][:subdomain]
     )
     resource.organization = organization
