@@ -1,5 +1,4 @@
 class Users::InvitationsController < Devise::InvitationsController
-
   def create
     user = User.invite!(
       {
