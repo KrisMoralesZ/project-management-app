@@ -1,5 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Organization, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should have_many(:users) }
+
+  it { should validate_presence_of(:email) }
+  it { should validate_presence_of(:password) }
+
+  describe 'Devise modules' do
+    it 'includes validatable' do
+      expect(Organization.devise_modules).to include(:validatable)
+    end
+  end
 end
