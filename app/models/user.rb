@@ -18,7 +18,6 @@ class User < ApplicationRecord
   end
 
   private
-
   def assign_default_role
     return if self.role.present?
 
