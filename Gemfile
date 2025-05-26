@@ -72,8 +72,6 @@ group :development, :test do
   gem "rspec-rails"
 end
 
-gem "devise_invitable", "~> 2.0"
-
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
@@ -87,6 +85,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem 'database_cleaner-active_record'
+  gem 'shoulda-matchers', '~> 5.0'
 end
 
 

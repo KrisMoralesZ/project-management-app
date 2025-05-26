@@ -5,7 +5,6 @@ class User < ApplicationRecord
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  # enum :role [admin: 0, member: 1]
   validates :role, presence: true
 
   before_validation :assign_default_role, on: :create
@@ -14,15 +13,19 @@ class User < ApplicationRecord
     role == 0
   end
 
+  def is_member?
+    role == 1
+  end
+
   private
 
   def assign_default_role
     return if self.role.present?
 
     if organization && organization.users.count == 0
-      self.role = :admin
+      self.role = 0
     else
-      self.role = :member
+      self.role = 1
     end
   end
 end

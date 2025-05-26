@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :organization do
-    sequence(:name) { |n| "Organization #{n}" }
-    sequence(:subdomain) { |n| "org#{n}" }
-    sequence(:email) { |n| "org#{n}@example.com" }
+    organization_name { "My Organization" }
+    subdomain { "myorg" }
+    email { "org@example.com" }
     password { "password123" }
   end
 end
