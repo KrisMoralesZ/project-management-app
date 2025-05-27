@@ -1,17 +1,17 @@
 %p#notice= notice
 
-%p
-  %b Title:
+%h1
   = @project.title
-%p
-  %b Details:
-  = @project.details
-%p
-  %b Expected completion date:
-  = @project.expected_completion_date
-%p
-  %b Organization:
-  = @project.organization
+
+%h4 Details:
+%div.d-flex.justify-space-batwen
+  %div
+    %p
+      = @project.details
+  %div
+    %p Expected completion date:
+    %p
+      = @project.expected_completion_date
 
 = link_to 'Edit', edit_project_path(@project)
 \|
