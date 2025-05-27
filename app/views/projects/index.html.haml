@@ -1,27 +1,20 @@
-%h1 Listing projects
+%h1 Projects
 
-%table
+%table.table.table-striped
   %thead
     %tr
       %th Title
       %th Details
-      %th Expected completion date
-      %th Organization
-      %th
-      %th
-      %th
-
+      %th Completion Date
+      %th Actions
   %tbody
     - @projects.each do |project|
       %tr
         %td= project.title
         %td= project.details
-        %td= project.expected_completion_date
-        %td= project.organization
-        %td= link_to 'Show', project
-        %td= link_to 'Edit', edit_project_path(project)
-        %td= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
+        %td= project.expected_completion_date.strftime('%Y-%m-%d')
+        %td
+          = link_to "Show", project_path(project)
 
 = link_to 'New Project', new_project_path
+
