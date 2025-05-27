@@ -21,7 +21,7 @@ class ProjectsController < ApplicationController
 
   # POST /projects or /projects.json
   def create
-    @project = Project.new(project_params)
+    @project = current_organization.projects.new(project_params)
 
     respond_to do |format|
       if @project.save
@@ -65,6 +65,6 @@ class ProjectsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def project_params
-      params.expect(project: [ :title, :details, :expected_completion_date, :organization_id ])
+      params.require(:project).permit(:title, :details, :expected_completion_date)
     end
 end
