@@ -1,19 +1,22 @@
-= form_for @project, data: { turbo: false } do |f|
+= form_for @project, html: { class: "card p-4 shadow-sm mx-auto", style: "max-width: 600px;" }, data: { turbo: false } do |f|
   - if @project.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@project.errors.count, "error")} prohibited this project from being saved:"
-      %ul
+    .alert.alert-danger
+      %h4.alert-heading= "#{pluralize(@project.errors.count, "error")} prohibited this project from being saved:"
+      %ul.mb-0
         - @project.errors.full_messages.each do |message|
           %li= message
 
-  .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :details
-    = f.text_field :details
-  .field
-    = f.label :expected_completion_date
-    = f.date_field :expected_completion_date
-  .actions
-    = f.submit 'Save'
+  .mb-3
+    = f.label :title, class: "form-label"
+    = f.text_field :title, class: "form-control", placeholder: "Enter project title"
+
+  .mb-3
+    = f.label :details, class: "form-label"
+    = f.text_field :details, class: "form-control", placeholder: "Enter project details"
+
+  .mb-3
+    = f.label :expected_completion_date, class: "form-label"
+    = f.date_field :expected_completion_date, class: "form-control"
+
+  .d-grid
+    = f.submit 'Save', class: "btn btn-primary"
