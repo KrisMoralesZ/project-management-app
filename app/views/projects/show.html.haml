@@ -1,18 +1,21 @@
-%p#notice= notice
+- content_for :title, @project.title
 
-%h1
-  = @project.title
+%div.container.mt-5
+  - if notice
+    .alert.alert-success.text-center= notice
 
-%h4 Details:
-%div.d-flex.justify-space-batwen
-  %div
-    %p
-      = @project.details
-  %div
-    %p Expected completion date:
-    %p
-      = @project.expected_completion_date
+  .card.shadow-sm
+    .card-header.bg-primary.text-white.d-flex.justify-content-between.align-items-center
+      %h2.mb-0= @project.title
+      %span.badge.bg-light.text-dark.ms-2
+        %i.fas.fa-calendar-alt.me-1
+        Expected: #{@project.expected_completion_date.strftime('%B %d, %Y')}
 
-= link_to 'Edit', edit_project_path(@project)
-\|
-= link_to 'Back', projects_path
+    .card-body
+      %h5.text-muted.mb-3 Details
+      %p.lead= @project.details
+
+    .card-footer.d-flex.justify-content-between
+      = link_to 'Edit', edit_project_path(@project), class: "btn btn-outline-primary"
+      = link_to 'Back to Projects', projects_path, class: "btn btn-secondary"
+
