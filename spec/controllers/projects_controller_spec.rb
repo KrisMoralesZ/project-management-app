@@ -24,7 +24,7 @@ RSpec.describe ProjectsController, type: :controller do
   describe "GET #show" do
     it "returns a success response" do
       project = Project.create! valid_attributes
-      get :show, params: {id: project.to_param}, session: valid_session
+      get :show, params: { id: project.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -39,7 +39,7 @@ RSpec.describe ProjectsController, type: :controller do
   describe "GET #edit" do
     it "returns a success response" do
       project = Project.create! valid_attributes
-      get :edit, params: {id: project.to_param}, session: valid_session
+      get :edit, params: { id: project.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -48,19 +48,19 @@ RSpec.describe ProjectsController, type: :controller do
     context "with valid params" do
       it "creates a new Project" do
         expect {
-          post :create, params: {project: valid_attributes}, session: valid_session
+          post :create, params: { project: valid_attributes }, session: valid_session
         }.to change(Project, :count).by(1)
       end
 
       it "redirects to the created project" do
-        post :create, params: {project: valid_attributes}, session: valid_session
+        post :create, params: { project: valid_attributes }, session: valid_session
         expect(response).to redirect_to(Project.last)
       end
     end
 
     context "with invalid params" do
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
-        post :create, params: {project: invalid_attributes}, session: valid_session
+        post :create, params: { project: invalid_attributes }, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -74,14 +74,14 @@ RSpec.describe ProjectsController, type: :controller do
 
       it "updates the requested project" do
         project = Project.create! valid_attributes
-        put :update, params: {id: project.to_param, project: new_attributes}, session: valid_session
+        put :update, params: { id: project.to_param, project: new_attributes }, session: valid_session
         project.reload
         skip("Add assertions for updated state")
       end
 
       it "redirects to the project" do
         project = Project.create! valid_attributes
-        put :update, params: {id: project.to_param, project: new_attributes}, session: valid_session
+        put :update, params: { id: project.to_param, project: new_attributes }, session: valid_session
         expect(response).to redirect_to(project)
       end
     end
@@ -89,7 +89,7 @@ RSpec.describe ProjectsController, type: :controller do
     context "with invalid params" do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         project = Project.create! valid_attributes
-        put :update, params: {id: project.to_param, project: invalid_attributes}, session: valid_session
+        put :update, params: { id: project.to_param, project: invalid_attributes }, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -99,13 +99,13 @@ RSpec.describe ProjectsController, type: :controller do
     it "destroys the requested project" do
       project = Project.create! valid_attributes
       expect {
-        delete :destroy, params: {id: project.to_param}, session: valid_session
+        delete :destroy, params: { id: project.to_param }, session: valid_session
       }.to change(Project, :count).by(-1)
     end
 
     it "redirects to the projects list" do
       project = Project.create! valid_attributes
-      delete :destroy, params: {id: project.to_param}, session: valid_session
+      delete :destroy, params: { id: project.to_param }, session: valid_session
       expect(response).to redirect_to(projects_url)
     end
   end
