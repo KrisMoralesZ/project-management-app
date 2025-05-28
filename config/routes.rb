@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root "welcome#index"
+  resources :projects
 
   devise_for :organizations, controllers: {
     registrations: "organizations/registrations",

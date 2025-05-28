@@ -1,0 +1,23 @@
+%h1 Projects
+
+- if current_organization.projects.count > 0
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Title
+        %th Details
+        %th Completion Date
+        %th Actions
+    %tbody
+      - @projects.each do |project|
+        %tr
+          %td= project.title
+          %td= project.details
+          %td= project.expected_completion_date.strftime('%Y-%m-%d')
+          %td
+            = link_to "Show", project_path(project)
+- else
+  %h4 You dont have any Project yet.
+
+= link_to 'New Project', new_project_path
+
