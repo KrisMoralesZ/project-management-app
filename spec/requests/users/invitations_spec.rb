@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Users::InvitationsController, type: :request do
-  let(:organization) { Organization.create!(organization_name: "OrgTest", subdomain: "orgtest") }
+  let(:organization) { Organization.create!(organization_name: "OrgTest", subdomain: "orgtest", organization_id: 1) }
   let(:inviter) do
     User.create!(
       email: "admin@orgtest.com",

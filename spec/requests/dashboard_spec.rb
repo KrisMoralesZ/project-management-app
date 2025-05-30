@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Dashboards", type: :request do
   before do
-    sign_in(create(:user), scope: :user)
+    sign_in(create(:organization), scope: :organization)
   end
 
   describe "GET /index" do
