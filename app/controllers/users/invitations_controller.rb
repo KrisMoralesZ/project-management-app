@@ -4,7 +4,8 @@ class Users::InvitationsController < Devise::InvitationsController
       {
         email: params[:user][:email],
         name: params[:user][:name],
-        role: params[:user][:role]
+        role: params[:user][:role],
+        organization_id: current_organization.id
       },
       current_user
     )

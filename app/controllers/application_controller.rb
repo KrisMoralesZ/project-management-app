@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 
   private
   def set_current_organization
-    if organization_signed_in?
+    if organization_signed_in? || user_signed_in?
       organization = Organization.find_by(subdomain: request.subdomain)
       ActsAsTenant.current_tenant = organization
     else

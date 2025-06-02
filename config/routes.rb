@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   root "welcome#index"
   resources :projects
 
+  post "go_to_organization", to: "welcome#redirect_to_subdomain"
+
   devise_for :organizations, controllers: {
     registrations: "organizations/registrations",
     sessions: "organizations/sessions"

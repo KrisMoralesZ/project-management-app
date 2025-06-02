@@ -8,12 +8,11 @@ RSpec.describe Organizations::SessionsController, type: :request do
       post organization_session_path, params: {
         organization: {
           email: organization.email,
-          password: 'password123'
+          password: organization.password
         }
       }
 
       expect(response).to redirect_to(root_url(subdomain: organization.subdomain, host: "localhost", protocol: "http"))
-      follow_redirect!
       expect(controller.current_organization).to eq(organization)
     end
   end

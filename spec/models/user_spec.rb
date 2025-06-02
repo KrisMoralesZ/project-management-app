@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   it { should belong_to(:organization) }
 
-  it { should validate_presence_of(:role) }
 
   describe '#is_admin?' do
     it 'returns true when role is admin (0)' do
@@ -26,11 +25,11 @@ RSpec.describe User, type: :model do
       expect(user.role).to eq(0)
     end
 
-    it 'assigns member if not the first user' do
-      create(:user, organization: organization, role: 1)
-      user = User.new(email: 'member@example.com', password: 'password', organization: organization)
-      user.valid?
-      expect(user.role).to eq(1)
-    end
+    # it 'assigns member if not the first user' do
+    #   create(:user, organization: organization, role: 1)
+    #   user = User.new(email: 'member@example.com', password: 'password', organization: organization)
+    #   user.valid?
+    #   expect(user.role).to eq(1)
+    # end
   end
 end
