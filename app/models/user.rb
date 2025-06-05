@@ -9,6 +9,9 @@ class User < ApplicationRecord
 
   before_validation :assign_default_role, on: :create
 
+  has_many :project_members
+  has_many :projects, through: :project_members
+
   def is_admin?
     role == 0
   end
