@@ -2,7 +2,7 @@ class WelcomeController < ApplicationController
   def index
     redirect_to dashboard_path if organization_signed_in?
 
-    redirect_to projects_path if user_signed_in?
+    # redirect_to projects_path if user_signed_in? && current_user.role == 1
   end
 
   def redirect_to_subdomain
