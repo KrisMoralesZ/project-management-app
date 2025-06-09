@@ -9,9 +9,15 @@ class WelcomeController < ApplicationController
     organization = Organization.find_by(organization_name: params[:organization_name])
 
     if organization
-      redirect_to new_organization_session_url(subdomain: organization.subdomain, host: "localhost", protocol: "http"), allow_other_host: true
+      path =
+        if params[:commit] == "Admin"
+          new_organization_session_url(subdomain: organization.subdomain, host: "localhost", protocol: "http")
+        else
+          new_user_session_url(subdomain: organization.subdomain, host: "localhost", protocol: "http")
+        end
+      redirect_to path, allow_other_host: true
     else
-      redirect_to root_url, allow_other_host: true
+      redirect_to root_url, alert: "Organization not Found", allow_other_host: true
     end
   end
 end
