@@ -5,10 +5,11 @@
 
 -# Add button to add users in current_organization avalable to work
 %h3 Add users
-= form_with url: project_search_members_path(@project), method: :get, data: { turbo_frame: "results" } do |f|
-  = f.label :query, "Search Users by Name or Email"
-  = f.text_field :query
-  = f.submit "Search"
+= form_with url: project_search_members_path(@project), method: :get, local: true, data: { turbo: false } do |f|
+  .form-group
+    = f.label :query, "Search Users by Name or Email"
+    = f.text_field :query, class: 'form-control'
+  = f.submit "Search", class: 'btn btn-secondary mt-2'
 
 %div.container.mt-5
   - if notice

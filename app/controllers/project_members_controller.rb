@@ -3,10 +3,20 @@ class ProjectMembersController < ApplicationController
 
   def search
     query = params[:query]
-    @results = @project.organization.users
-                       .where.not(id: @project.users.pluck(:id))
-                       .where("email ILIKE :q OR name ILIKE :q", q: "%#{query}%")
+
+    @results = User
+      .where(organization_id: current_organization.id)
+      .where.not(id: @project.users.pluck(:id))
+      .where("email ILIKE :q OR name ILIKE :q", q: "%#{query}%")
+
     render :search
+  end
+
+  def add
+    user = User.find(params[:user_id])
+    @project.users << user unless @project.users.include?(user)
+
+    redirect_to project_path(@project), notice: "User added successfully"
   end
 
 
