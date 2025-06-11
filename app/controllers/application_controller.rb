@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
-
   protected
 
   def configure_permitted_parameters
@@ -16,10 +15,12 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
   def set_current_organization
-    if organization_signed_in? || user_signed_in?
-      organization = Organization.find_by(subdomain: request.subdomain)
-      ActsAsTenant.current_tenant = organization
+    if organization_signed_in?
+      ActsAsTenant.current_tenant = current_organization
+    elsif user_signed_in?
+      ActsAsTenant.current_tenant = current_user.organization
     else
       ActsAsTenant.current_tenant = nil
     end
