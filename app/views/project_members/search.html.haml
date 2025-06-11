@@ -1,0 +1,6 @@
+- if @results.present?
+  %ul
+    - @results.each do |user|
+      %li
+        = "#{user.name} (#{user.email})"
+        -# = link_to "Add Member", projects_add_member_path(@project, user_id: user.id), method: :post, data: { turbo: false }, class: "btn btn-primary"
