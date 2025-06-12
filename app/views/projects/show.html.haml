@@ -1,16 +1,5 @@
 - content_for :title, @project.title
 
-%h3 Users working on this project
--# Add list of users if are users on this project
-
--# Add button to add users in current_organization avalable to work
-%h3 Add users
-= form_with url: project_search_members_path(@project), method: :get, local: true, data: { turbo: false } do |f|
-  .form-group
-    = f.label :query, "Search Users by Name or Email"
-    = f.text_field :query, class: 'form-control'
-  = f.submit "Search", class: 'btn btn-secondary mt-2'
-
 %div.container.mt-5
   - if notice
     .alert.alert-success.text-center= notice
@@ -30,3 +19,14 @@
       = link_to 'Edit', edit_project_path(@project), class: "btn btn-outline-primary"
       = link_to 'Back to Projects', projects_path, class: "btn btn-secondary"
 
+%h3 Users working on this project
+
+%h3 Add users
+
+= turbo_frame_tag "members_search" do
+  = form_with url: project_search_members_path(@project), method: :post, local: false do |f|
+    = f.label :query, "Search for users"
+    = f.text_field :query, class: "form-control"
+    = f.submit "Search", class: "btn btn-primary"
+
+= turbo_frame_tag "members_search_results"

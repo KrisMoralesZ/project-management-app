@@ -5,11 +5,14 @@ class ProjectMembersController < ApplicationController
     query = params[:query]
 
     @results = User
-      .where(organization_id: current_organization.id)
-      .where.not(id: @project.users.pluck(:id))
-      .where("email ILIKE :q OR name ILIKE :q", q: "%#{query}%")
+                 .where(organization_id: current_organization.id)
+                 .where.not(id: @project.users.pluck(:id))
+                 .where("email ILIKE :q OR name ILIKE :q", q: "%#{query}%")
 
-    render :search
+    respond_to do |format|
+      format.turbo_stream
+      format.html { head :unprocessable_entity }
+    end
   end
 
   def add
