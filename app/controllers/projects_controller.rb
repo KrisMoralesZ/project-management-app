@@ -3,11 +3,12 @@ class ProjectsController < ApplicationController
 
   # GET /projects or /projects.json
   def index
-    @projects = current_organization.projects.all
+    @projects = ActsAsTenant.current_tenant.projects
   end
 
   # GET /projects/1 or /projects/1.json
   def show
+    @project_members = @project.project_members
   end
 
   # GET /projects/new
