@@ -1,5 +1,5 @@
 %h1 Projects
-- if current_organization.projects.count > 0
+- if ActsAsTenant.current_tenant&.projects&.any?
   %table.table.table-striped
     %thead
       %tr
