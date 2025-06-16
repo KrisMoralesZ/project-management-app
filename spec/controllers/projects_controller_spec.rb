@@ -1,113 +1,49 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe ProjectsController, type: :controller do
-  include Devise::Test::ControllerHelpers
+  let(:organization) { create(:organization) }
+  let(:user) { create(:user, organization: organization) }
+  let(:project) { create(:project, organization: organization) }
 
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
-
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
-
-  let(:valid_session) { {} }
+  before do
+    sign_in user
+    ActsAsTenant.current_tenant = organization
+  end
 
   describe "GET #index" do
     it "returns a success response" do
-      Project.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      get :index
       expect(response).to be_successful
     end
   end
 
   describe "GET #show" do
-    it "returns a success response" do
-      project = Project.create! valid_attributes
-      get :show, params: { id: project.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET #new" do
-    it "returns a success response" do
-      get :new, params: {}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET #edit" do
-    it "returns a success response" do
-      project = Project.create! valid_attributes
-      get :edit, params: { id: project.to_param }, session: valid_session
+    it "shows a project" do
+      get :show, params: { id: project.id }
       expect(response).to be_successful
     end
   end
 
   describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Project" do
-        expect {
-          post :create, params: { project: valid_attributes }, session: valid_session
-        }.to change(Project, :count).by(1)
-      end
-
-      it "redirects to the created project" do
-        post :create, params: { project: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(Project.last)
-      end
-    end
-
-    context "with invalid params" do
-      it "renders a response with 422 status (i.e. to display the 'new' template)" do
-        post :create, params: { project: invalid_attributes }, session: valid_session
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    end
-  end
-
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested project" do
-        project = Project.create! valid_attributes
-        put :update, params: { id: project.to_param, project: new_attributes }, session: valid_session
-        project.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the project" do
-        project = Project.create! valid_attributes
-        put :update, params: { id: project.to_param, project: new_attributes }, session: valid_session
-        expect(response).to redirect_to(project)
-      end
-    end
-
-    context "with invalid params" do
-      it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        project = Project.create! valid_attributes
-        put :update, params: { id: project.to_param, project: invalid_attributes }, session: valid_session
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
+    it "creates a project" do
+      expect {
+        post :create, params: {
+          project: {
+            title: "New Project",
+            details: "Details here",
+            expected_completion_date: Date.today + 7
+          }
+        }
+      }.to change(Project, :count).by(1)
     end
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested project" do
-      project = Project.create! valid_attributes
+    it "deletes the project" do
+      project # create before expect
       expect {
-        delete :destroy, params: { id: project.to_param }, session: valid_session
+        delete :destroy, params: { id: project.id }
       }.to change(Project, :count).by(-1)
     end
-
-    it "redirects to the projects list" do
-      project = Project.create! valid_attributes
-      delete :destroy, params: { id: project.to_param }, session: valid_session
-      expect(response).to redirect_to(projects_url)
-    end
   end
-
 end
