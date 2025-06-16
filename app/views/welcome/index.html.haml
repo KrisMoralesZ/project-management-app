@@ -29,4 +29,5 @@
     %br/
     = f.text_field :organization_name, autofocus: true, autocomplete: "organization_name"
   .actions
-    = f.submit "Go to Organization"
+    = f.submit "Login as Administrator", name: "commit", value: "Admin", class: "btn btn-primary"
+    = f.submit "Login as Collaborator", name: "commit", value: "Member", class: "btn btn-secondary"
