@@ -7,3 +7,46 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+colors = %w[Red Blue Green Yellow Purple Orange Black White Pink Gray]
+
+colors.each do |color|
+  org_name = "#{color} Corp"
+  subdomain = color.downcase + "_corp"
+
+  organization = Organization.create(
+    organization_name:org_name,
+    subdomain: subdomain,
+    email: Faker::Internet.email(domain: subdomain),
+    password: "password",
+    password_confirmation: "password"
+  )
+
+  ActsAsTenant.with_tenant(organization) do
+    members = Array.new(rand(10..30)) do
+      User.create(
+        name: Faker::Name.name,
+        email: Faker::Internet.unique.email(domain: subdomain),
+        password: "password",
+        password_confirmation: "password"
+      )
+    end
+
+    projects = Array.new(rand(1..4)) do
+      Project.create(
+        title: Faker::App.name,
+        details: Faker::Lorem.sentence,
+        expected_completion_date: Faker::Date.forward(days: 90)
+      )
+    end
+
+    members.each do |member|
+      projects.sample(rand(1..2)).each do |project|
+        ProjectMember.create(
+          project_id: project.id,
+          user_id: member.id,
+        )
+      end
+    end
+  end
+end
