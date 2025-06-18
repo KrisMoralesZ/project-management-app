@@ -18,5 +18,6 @@
 - else
   %h4 You dont have any Project yet.
 
-= link_to 'New Project', new_project_path
+- if admin_user?
+  = link_to 'New Project', new_project_path
 
