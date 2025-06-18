@@ -15,38 +15,45 @@ colors.each do |color|
   subdomain = color.downcase + "_corp"
 
   organization = Organization.create(
-    organization_name:org_name,
+    organization_name: org_name,
     subdomain: subdomain,
-    email: Faker::Internet.email(domain: subdomain),
+    email: "#{org_name.downcase.parameterize(separator: "-")}@#{color}.com",
     password: "password",
     password_confirmation: "password"
   )
+  puts "#{organization.organization_name} Organization created"
 
   ActsAsTenant.with_tenant(organization) do
+    domain = "#{organization.organization_name.downcase.parameterize(separator: "-")}.com"
+
     members = Array.new(rand(10..30)) do
       User.create(
         name: Faker::Name.name,
-        email: Faker::Internet.unique.email(domain: subdomain),
+        email: Faker::Internet.unique.email(domain: domain),
         password: "password",
-        password_confirmation: "password"
+        password_confirmation: "password",
+        role: 1
       )
     end
+    puts "#{organization.organization_name} Members created"
 
     projects = Array.new(rand(1..4)) do
-      Project.create(
+      organization.projects.create(
         title: Faker::App.name,
         details: Faker::Lorem.sentence,
         expected_completion_date: Faker::Date.forward(days: 90)
       )
     end
+    puts "#{organization.organization_name} Projects created"
 
     members.each do |member|
       projects.sample(rand(1..2)).each do |project|
-        ProjectMember.create(
+        ProjectMember.find_or_create_by(
           project_id: project.id,
           user_id: member.id,
         )
       end
     end
+    puts "#{organization.organization_name} Projects-Members created"
   end
 end
