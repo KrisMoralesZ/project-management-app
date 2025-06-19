@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_19_180653) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_19_184551) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -54,6 +54,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_19_180653) do
     t.index ["assignee_id"], name: "index_artifacts_on_assignee_id"
     t.index ["creator_id"], name: "index_artifacts_on_creator_id"
     t.index ["project_id"], name: "index_artifacts_on_project_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.bigint "user_id", null: false
+    t.string "commentable_type", null: false
+    t.bigint "commentable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -124,6 +135,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_19_180653) do
   add_foreign_key "artifacts", "projects"
   add_foreign_key "artifacts", "users", column: "assignee_id"
   add_foreign_key "artifacts", "users", column: "creator_id"
+  add_foreign_key "comments", "users"
   add_foreign_key "project_members", "projects"
   add_foreign_key "project_members", "users"
   add_foreign_key "projects", "organizations"
