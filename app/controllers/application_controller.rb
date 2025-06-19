@@ -26,6 +26,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_actor
+    current_user || current_organization
+  end
+  helper_method :current_actor
+
+  def admin_user?
+    current_actor.is_a?(Organization)
+  end
+  helper_method :admin_user?
+
   def devise_controller_for_organization_registration?
     devise_controller? && controller_path == "organizations/registrations"
   end

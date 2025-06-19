@@ -2,9 +2,28 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: %i[ show edit update destroy ]
 
   # GET /projects or /projects.json
+  # def index
+  #   if current_user.role == 0
+  #     @projects = ActsAsTenant.current_tenant.projects
+  #   else
+  #     @projects = current_user.projects
+  #   end
+  # end
+
   def index
-    @projects = ActsAsTenant.current_tenant.projects
+    if current_actor.is_a?(User)
+      if current_actor.role == 0
+        @projects = current_actor.organization.projects
+      else
+        @projects = current_actor.projects
+      end
+    elsif current_actor.is_a?(Organization)
+      @projects = current_actor.projects
+    else
+      redirect_to root_path, alert: "You must be signed in."
+    end
   end
+
 
   # GET /projects/1 or /projects/1.json
   def show

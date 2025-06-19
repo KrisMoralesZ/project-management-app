@@ -24,12 +24,5 @@ RSpec.describe User, type: :model do
       user.valid?
       expect(user.role).to eq(0)
     end
-
-    # it 'assigns member if not the first user' do
-    #   create(:user, organization: organization, role: 1)
-    #   user = User.new(email: 'member@example.com', password: 'password', organization: organization)
-    #   user.valid?
-    #   expect(user.role).to eq(1)
-    # end
   end
 end
