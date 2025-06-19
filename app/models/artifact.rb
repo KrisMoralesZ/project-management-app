@@ -5,7 +5,7 @@ class Artifact < ApplicationRecord
 
   def uploaded_file_size
     if upload
-      errors.add(:upload, "File size must be less than #{self.class::MAX_FILESIZE}") unless upload.size <= self.class::MAX_FILESIZE
+      errors.add(:upload, "File size must be less than #{self.class::MAX_FILE_SIZE}") unless upload.size <= self.class::MAX_FILE_SIZE
     end
   end
 end

@@ -17,7 +17,7 @@
               %tr
                 %th Name
                 %th Email
-                - if current_user.role == 0
+                - if current_actor.is_a?(Organization)
                   %th Actions
             %tbody
             - @project_members.each do |member|
@@ -28,7 +28,7 @@
         - else
           %p.text-muted No members in this project yet.
 
-  - if current_user.role == 0
+  - if current_actor.is_a?(Organization)
     .accordion-item
       %h2.accordion-header{id: "flush-headingThree"}
         %button.accordion-button.collapsed{ type: "button",
