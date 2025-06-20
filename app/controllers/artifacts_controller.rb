@@ -1,70 +1,53 @@
 class ArtifactsController < ApplicationController
-  before_action :set_artifact, only: %i[ show edit update destroy ]
+  before_action :set_project
+  before_action :set_artifact, only: %i[show edit update destroy]
 
-  # GET /artifacts or /artifacts.json
   def index
-    @artifacts = Artifact.all
+    @artifacts = @project.artifacts
   end
 
-  # GET /artifacts/1 or /artifacts/1.json
-  def show
-  end
+  def show; end
 
-  # GET /artifacts/new
   def new
-    @artifact = Artifact.new
+    @artifact = @project.artifacts.new
   end
 
-  # GET /artifacts/1/edit
-  def edit
-  end
-
-  # POST /artifacts or /artifacts.json
   def create
-    @artifact = Artifact.new(artifact_params)
+    @artifact = @project.artifacts.new(artifact_params)
 
-    respond_to do |format|
-      if @artifact.save
-        format.html { redirect_to @artifact, notice: "Artifact was successfully created." }
-        format.json { render :show, status: :created, location: @artifact }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @artifact.errors, status: :unprocessable_entity }
-      end
+    if @artifact.save
+      redirect_to [@project, @artifact], notice: 'Artifact was successfully created.'
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /artifacts/1 or /artifacts/1.json
+  def edit; end
+
   def update
-    respond_to do |format|
-      if @artifact.update(artifact_params)
-        format.html { redirect_to @artifact, notice: "Artifact was successfully updated." }
-        format.json { render :show, status: :ok, location: @artifact }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @artifact.errors, status: :unprocessable_entity }
-      end
+    if @artifact.update(artifact_params)
+      redirect_to [@project, @artifact], notice: 'Artifact was successfully updated.'
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /artifacts/1 or /artifacts/1.json
   def destroy
-    @artifact.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to artifacts_path, status: :see_other, notice: "Artifact was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    @artifact.destroy
+    redirect_to project_artifacts_path(@project), notice: 'Artifact was successfully deleted.'
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_artifact
-      @artifact = Artifact.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def artifact_params
-      params.expect(artifact: [ :name, :key, :project_id ])
-    end
+  def set_project
+    @project = Project.find(params[:project_id])
+  end
+
+  def set_artifact
+    @artifact = @project.artifacts.find(params[:id])
+  end
+
+  def artifact_params
+    params.require(:artifact).permit(:title, :description, :status, :upload)
+  end
 end
