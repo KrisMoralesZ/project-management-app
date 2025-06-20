@@ -1,7 +1,7 @@
 class Project < ApplicationRecord
   belongs_to :organization
 
-  has_many :artifacts
+  has_many :artifacts, dependent: :destroy
   has_many :project_members
   has_many :users, through: :project_members
 
