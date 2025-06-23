@@ -8,7 +8,7 @@ class Artifact < ApplicationRecord
 
   # enum status: { open: 0, in_progress: 1, done: 2 }
 
-  validates :title, presence: true
+  validates :name, presence: true
   validates :description, presence: true
   attr_accessor :upload
   MAX_FILE_SIZE = 10.megabytes

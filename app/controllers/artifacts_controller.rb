@@ -14,9 +14,12 @@ class ArtifactsController < ApplicationController
 
   def create
     @artifact = @project.artifacts.new(artifact_params)
+    @artifact.creator = current_user_with_fallback if current_user_with_fallback.is_a?(User)
+
+
 
     if @artifact.save
-      redirect_to [@project, @artifact], notice: 'Artifact was successfully created.'
+      redirect_to [@project, @artifact], notice: "Artifact was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -26,7 +29,7 @@ class ArtifactsController < ApplicationController
 
   def update
     if @artifact.update(artifact_params)
-      redirect_to [@project, @artifact], notice: 'Artifact was successfully updated.'
+      redirect_to [@project, @artifact], notice: "Artifact was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -34,7 +37,7 @@ class ArtifactsController < ApplicationController
 
   def destroy
     @artifact.destroy
-    redirect_to project_artifacts_path(@project), notice: 'Artifact was successfully deleted.'
+    redirect_to project_artifacts_path(@project), notice: "Artifact was successfully deleted."
   end
 
   private
@@ -48,6 +51,6 @@ class ArtifactsController < ApplicationController
   end
 
   def artifact_params
-    params.require(:artifact).permit(:title, :description, :status, :upload)
+    params.require(:artifact).permit(:name, :description, :assignee_id)
   end
 end
