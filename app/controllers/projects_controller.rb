@@ -1,15 +1,6 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[ show edit update destroy ]
 
-  # GET /projects or /projects.json
-  # def index
-  #   if current_user.role == 0
-  #     @projects = ActsAsTenant.current_tenant.projects
-  #   else
-  #     @projects = current_user.projects
-  #   end
-  # end
-
   def index
     if current_actor.is_a?(User)
       if current_actor.role == 0
