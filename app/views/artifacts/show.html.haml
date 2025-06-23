@@ -1,15 +1,3 @@
 %p#notice= notice
 
-%p
-  %b Name:
-  = @artifact.name
-%p
-  %b Key:
-  = @artifact.key
-%p
-  %b Project:
-  = @artifact.project
-
--# = link_to 'Edit', edit_artifact_path(@artifact)
-\|
--# = link_to 'Back', artifacts_path
+= render partial: "artifacts/artifact_card"
