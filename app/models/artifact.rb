@@ -6,8 +6,6 @@ class Artifact < ApplicationRecord
   has_many :comments, as: :commentable, dependent: :destroy
   has_one_attached :attachment
 
-  # enum status: { open: 0, in_progress: 1, done: 2 }
-
   validates :name, presence: true
   validates :description, presence: true
   attr_accessor :upload

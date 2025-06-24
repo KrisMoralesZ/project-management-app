@@ -1,25 +1,24 @@
 %h1 Listing artifacts
 
-%table
+%table.table.table-striped
   %thead
     %tr
       %th Name
-      %th Key
-      %th Project
-      %th
-      %th
-      %th
-
+      %th Description
+      %th Status
+      %th Show
   %tbody
     - @artifacts.each do |artifact|
       %tr
         %td= artifact.name
-        %td= artifact.key
-        %td= artifact.project
-        -# %td= link_to 'Show', artifact
-        -# %td= link_to 'Edit', edit_artifact_path(artifact)
-        -# %td= link_to 'Destroy', artifact, method: :delete, data: { confirm: 'Are you sure?' }
-
+        %td= artifact.description
+        - if artifact.status == 0
+          %td= "Open"
+        - elsif artifact.status == 1
+          %td= "In Progress"
+        -else artifact.status == 2
+          %td= "Closed"
+        %td= link_to 'Show', project_artifact_path(artifact.project, artifact)
 %br
 
 = link_to 'New Artifact', new_project_artifact_path
