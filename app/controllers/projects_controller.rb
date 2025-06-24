@@ -19,6 +19,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1 or /projects/1.json
   def show
     @project_members = @project.project_members
+    @artifacts = @project.artifacts.includes(:assignee, :creator)
   end
 
   # GET /projects/new

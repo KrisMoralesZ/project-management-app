@@ -15,10 +15,21 @@
       %h5.text-muted.mb-3 Details
       %p.lead= @project.details
 
-    = link_to "Create Artifact", new_project_artifact_path(@project), class: "btn btn-primary"
+      %h3 Artifacts
+      .d-flex.justify-content-between
+        = link_to "Ner Artifact", new_project_artifact_path(@project), class: "btn btn-primary mb-4"
+        = link_to "All Artifacts", project_artifacts_path(@project), class: "btn btn-secondary mb-4"
+
+      - if @artifacts.any?
+        .row
+          - @artifacts.each do |artifact|
+            .col-md-6.col-lg-4.mb-4
+              = render partial: 'artifacts/artifact_card', locals: { artifact: artifact }
+      - else
+        %p.text-muted No artifacts have been created for this project yet.
 
     .card-footer.d-flex.justify-content-between
-      = link_to 'Edit', edit_project_path(@project), class: "btn btn-outline-primary"
+      = link_to 'Edit Project', edit_project_path(@project), class: "btn btn-outline-primary"
       = link_to 'Back to Projects', projects_path, class: "btn btn-secondary"
 
   = render "projects/accordion"

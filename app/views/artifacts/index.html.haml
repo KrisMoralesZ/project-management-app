@@ -21,4 +21,6 @@
         %td= link_to 'Show', project_artifact_path(artifact.project, artifact)
 %br
 
-= link_to 'New Artifact', new_project_artifact_path
+.d-flex.justify-content-between
+  = link_to 'New Artifact', new_project_artifact_path, class: "btn btn-primary mb-4"
+  = link_to 'Back to Project', project_path(@project), class: "btn btn-secondary mb-4"
