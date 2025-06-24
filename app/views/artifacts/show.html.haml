@@ -6,5 +6,21 @@
   .card-body
     = @artifact.description
   .card-footer.d-flex.justify-content-between
-    = link_to 'Edit', edit_project_artifact_path(@artifact), class: "btn btn-outline-primary"
+    -# = link_to 'Edit', edit_project_artifact_path(@artifact), class: "btn btn-outline-primary"
     = link_to 'Back', project_artifacts_path,class: "btn btn-secondary"
+
+%h3.mt-5 Comments
+
+- @artifact.comments.each do |comment|
+  .card.mb-2
+    .card-body
+      %strong= comment.user.name
+      %p= comment.content
+      -# %small.text-muted= time_ago_in_words(comment.created_at) + " ago"
+
+= form_with model: [@project, @artifact, Comment.new], url: project_artifact_comments_path(@project, @artifact), local: true, data: { turbo: false} do |f|
+  .form-group
+    = f.label :content, "Add a Comment"
+    = f.text_area :content, class: "form-control", rows: 3
+  .form-group.mt-2
+    = f.submit "Comment", class: "btn btn-primary"

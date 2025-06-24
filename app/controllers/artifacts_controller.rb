@@ -9,7 +9,9 @@ class ArtifactsController < ApplicationController
   def show; end
 
   def new
+    @project = Project.find(params[:project_id])
     @artifact = @project.artifacts.new
+    @comments = @artifact.comments.includes(:user).order(created_at: :asc)
   end
 
   def create
