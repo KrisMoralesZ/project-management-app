@@ -16,18 +16,25 @@
       %p.lead= @project.details
 
       %h3 Artifacts
+      - @project.artifacts.each do |artifact|
+        .card.artifact_card
+          .card-header.d-flex.justify-content-between
+            = artifact.name
+            = form_with url: update_status_project_artifact_path(@project, artifact), method: :patch, local: true do |f|
+              = select_tag "status",
+                  options_for_select([["Open", 0], ["In Progress", 1], ["Closed", 2]], artifact.status),
+                  class: "form-control",
+                  onchange: "this.form.submit()"
+
+          .card-body
+            = artifact.description
+
+          .card-footer
+            = link_to "View", project_artifact_path(artifact), class: "btn btn-primary btn-sm"
+
       .d-flex.justify-content-between
         = link_to "Ner Artifact", new_project_artifact_path(@project), class: "btn btn-primary mb-4"
         = link_to "All Artifacts", project_artifacts_path(@project), class: "btn btn-secondary mb-4"
-
-      - if @artifacts.any?
-        .row
-          - @artifacts.each do |artifact|
-            .col-md-6.col-lg-4.mb-4
-              = render partial: 'artifacts/artifact_card', locals: { artifact: artifact }
-      - else
-        %p.text-muted No artifacts have been created for this project yet.
-
     .card-footer.d-flex.justify-content-between
       = link_to 'Edit Project', edit_project_path(@project), class: "btn btn-outline-primary"
       = link_to 'Back to Projects', projects_path, class: "btn btn-secondary"

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     post "members/add", to: "project_members#add", as: :add_member
 
     resources :artifacts do
+      patch :update_status, on: :member
       resources :comments, only: %i[create destroy]
     end
   end

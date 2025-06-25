@@ -42,6 +42,17 @@ class ArtifactsController < ApplicationController
     redirect_to project_artifacts_path(@project), notice: "Artifact was successfully deleted."
   end
 
+  def update_status
+    @project = Project.find(params[:project_id])
+    @artifact = @project.artifacts.find(params[:id])
+
+    if @artifact.update(status: params[:status])
+      redirect_to project_path(@project), notice: "Artifact was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_project
@@ -53,6 +64,6 @@ class ArtifactsController < ApplicationController
   end
 
   def artifact_params
-    params.require(:artifact).permit(:name, :description, :assignee_id)
+    params.require(:artifact).permit(:name, :description, :assignee_id, :status)
   end
 end
