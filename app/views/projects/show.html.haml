@@ -1,42 +1,38 @@
 - content_for :title, @project.title
+.d-flex.justify-content-between.align-items-center
+  %h2.mb-0= @project.title
+  %span.badge.bg-light.text-dark.ms-2
+    %i.fas.fa-calendar-alt.me-1
+    Expected: #{@project.expected_completion_date.strftime('%B %d, %Y')}
+.row
+  - @artifacts_by_status.each do |status_label, artifacts|
+    .col-md-4
+      .card.shadow-sm.mb-4
+        .card-header.bg-secondary.text-white
+          %h5.mb-0= status_label
 
-%div.container.mt-5
-  - if notice
-    .alert.alert-success.text-center= notice
+        .card-body
+          - if artifacts.any?
+            - artifacts.each do |artifact|
+              .card.shadow-sm.mb-3
+                .card-header.d-flex.justify-content-between.align-items-center
+                  = truncate(artifact.name, length: 20)
+                  = form_with url: update_status_project_artifact_path(@project, artifact), method: :patch, local: true do |f|
+                    = select_tag "status",
+                        options_for_select([["Open", 0], ["In Progress", 1], ["Closed", 2]], artifact.status),
+                        class: "form-control", onchange: "this.form.submit()"
 
-  .card.shadow-sm
-    .card-header.bg-primary.text-white.d-flex.justify-content-between.align-items-center
-      %h2.mb-0= @project.title
-      %span.badge.bg-light.text-dark.ms-2
-        %i.fas.fa-calendar-alt.me-1
-        Expected: #{@project.expected_completion_date.strftime('%B %d, %Y')}
+                .card-body
+                  = truncate(artifact.description, length: 100)
 
-    .card-body
-      %h5.text-muted.mb-3 Details
-      %p.lead= @project.details
+                .card-footer
+                  = link_to "View", project_artifact_path(@project, artifact), class: "btn btn-primary btn-sm"
+          - else
+            %p.text-muted No artifacts yet.
 
-      %h3 Artifacts
-      - @project.artifacts.each do |artifact|
-        .card.artifact_card
-          .card-header.d-flex.justify-content-between
-            = artifact.name
-            = form_with url: update_status_project_artifact_path(@project, artifact), method: :patch, local: true do |f|
-              = select_tag "status",
-                  options_for_select([["Open", 0], ["In Progress", 1], ["Closed", 2]], artifact.status),
-                  class: "form-control",
-                  onchange: "this.form.submit()"
+.row.mt-4
+  .col
+    = link_to "New Artifact", new_project_artifact_path(@project), class: "btn btn-primary me-2"
+    = link_to "All Artifacts", project_artifacts_path(@project), class: "btn btn-secondary"
 
-          .card-body
-            = artifact.description
-
-          .card-footer
-            = link_to "View", project_artifact_path(artifact), class: "btn btn-primary btn-sm"
-
-      .d-flex.justify-content-between
-        = link_to "Ner Artifact", new_project_artifact_path(@project), class: "btn btn-primary mb-4"
-        = link_to "All Artifacts", project_artifacts_path(@project), class: "btn btn-secondary mb-4"
-    .card-footer.d-flex.justify-content-between
-      = link_to 'Edit Project', edit_project_path(@project), class: "btn btn-outline-primary"
-      = link_to 'Back to Projects', projects_path, class: "btn btn-secondary"
-
-  = render "projects/accordion"
+= render "projects/accordion"

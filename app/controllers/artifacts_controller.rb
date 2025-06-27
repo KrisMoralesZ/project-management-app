@@ -18,8 +18,6 @@ class ArtifactsController < ApplicationController
     @artifact = @project.artifacts.new(artifact_params)
     @artifact.creator = current_user_with_fallback if current_user_with_fallback.is_a?(User)
 
-
-
     if @artifact.save
       redirect_to [@project, @artifact], notice: "Artifact was successfully created."
     else

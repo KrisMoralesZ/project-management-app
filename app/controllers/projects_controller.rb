@@ -20,6 +20,11 @@ class ProjectsController < ApplicationController
   def show
     @project_members = @project.project_members
     @artifacts = @project.artifacts.includes(:assignee, :creator)
+    @artifacts_by_status = {
+      "Open" => @artifacts.where(status: 0).last(4),
+      "In Progress" => @artifacts.where(status: 1).last(4),
+      "Closed" => @artifacts.where(status: 2).last(4)
+    }
   end
 
   # GET /projects/new
