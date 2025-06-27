@@ -12,6 +12,10 @@ class User < ApplicationRecord
   has_many :project_members
   has_many :projects, through: :project_members
 
+  has_many :created_artifacts, class_name: "Artifact", foreign_key: :creator_id, dependent: :nullify
+  has_many :assigned_artifacts, class_name: "Artifact", foreign_key: :assignee_id, dependent: :nullify
+
+  has_many :comments, dependent: :destroy
   def is_admin?
     role == 0
   end

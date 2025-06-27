@@ -10,3 +10,8 @@
  *= require_tree .
  *= require_self
 */
+
+.card.artifact_card {
+  max-width: 400px;
+  margin: 0 auto;
+}

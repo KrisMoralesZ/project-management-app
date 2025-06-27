@@ -18,7 +18,8 @@
     = javascript_importmap_tags
   %body
     = render "layouts/navigation"
-    %p.notice= notice
-    %p.alert= alert
     %div.container
+      - if notice
+        .alert.alert-success.text-center= notice
+        .alert.alert-error.text-center= alert
       = yield

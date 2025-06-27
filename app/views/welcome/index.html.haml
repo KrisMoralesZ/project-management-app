@@ -4,30 +4,20 @@
 %div.w-75.d-flex.jusitfy-content-center.align-items-center.justify-content-around.mx-auto.mt-5
   %div.card.card-width
     %div.card-body
-      %p.card-title Free Plan
+      %p.card-title SignUp for Free
       %ul
         %li.card-text Unlimited file uploads
-        %li.card-text Responsive design
         %li.card-text Access anywhere
-        %li.card-text 1 project
       = link_to 'Sign up now!', new_organization_registration_path, class: 'btn btn-primary'
 
   %div.card.card-width
     %div.card-body
-      %p.card-title Premium Plan
-      %ul
-        %li.card-text Unlimited file uploads
-        %li.card-text Responsive design
-        %li.card-text Access anywhere
-        %li.card-text Unlimited projects
-      = link_to 'Sign up now!', new_organization_registration_path, class: 'btn btn-primary'
-
-%h2 Do you have an Organization?
-= form_with url: go_to_organization_path, method: :post, local:true, data: { turbo: false } do |f|
-  .field
-    = f.label :organization_name
-    %br/
-    = f.text_field :organization_name, autofocus: true, autocomplete: "organization_name"
-  .actions
-    = f.submit "Login as Administrator", name: "commit", value: "Admin", class: "btn btn-primary"
-    = f.submit "Login as Collaborator", name: "commit", value: "Member", class: "btn btn-secondary"
+      %p.card-title Do you have an Organization?
+      = form_with url: go_to_organization_path, method: :post, local:true, data: { turbo: false } do |f|
+        .field
+          = f.label :organization_name
+          %br/
+          = f.text_field :organization_name, autofocus: true, autocomplete: "organization_name"
+        .actions.mt-2
+          = f.submit "Login as Administrator", name: "commit", value: "Admin", class: "btn btn-primary"
+          = f.submit "Login as Collaborator", name: "commit", value: "Member", class: "btn btn-secondary"

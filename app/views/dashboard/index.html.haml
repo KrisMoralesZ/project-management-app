@@ -28,7 +28,7 @@
           %tr
             %td= "#{user.name} #{user.last_name}"
             %td= user.email
-            %td= user.role
+            %td= "Member"
             %td
               - unless user == current_user
                 = button_to 'Delete', user_path(user), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger"

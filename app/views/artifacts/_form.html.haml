@@ -1,19 +1,26 @@
-= form_for @artifact do |f|
+= form_for [@project, @artifact], data: { turbo: false } do |f|
   - if @artifact.errors.any?
     #error_explanation
       %h2= "#{pluralize(@artifact.errors.count, "error")} prohibited this artifact from being saved:"
       %ul
         - @artifact.errors.full_messages.each do |message|
-          %li= message
+          %li.text-danger= message
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :key
-    = f.text_field :key
-  .field
-    = f.label :project
-    = f.text_field :project
-  .actions
-    = f.submit 'Save'
+  .card.mb-3.shadow-sm
+    .card-body
+      .form-group
+        = f.label :name, "Name"
+        = f.text_field :name, class: "form-control", placeholder: "Artifact Name"
+        %small.form-text.text-muted Optional identifier, like a short code.
+
+      .form-group
+        = f.label :description, "Description"
+        = f.text_area :description, class: "form-control", rows: 6, placeholder: "Describe the issue or task in detail..."
+
+      .form-group
+        = f.label :assignee_id, "Assign To"
+        = f.collection_select :assignee_id, @project.users, :id, :name, prompt: "Select a user", class: "form-control"
+
+  .form-group.mt-3
+    = f.submit "Create Artifact", class: "btn btn-primary"
+    = link_to 'Back', project_artifacts_path,class: "btn btn-secondary"
