@@ -19,7 +19,7 @@ class ArtifactsController < ApplicationController
     @artifact.creator = current_user_with_fallback if current_user_with_fallback.is_a?(User)
 
     if @artifact.save
-      redirect_to [@project, @artifact], notice: "Artifact was successfully created."
+      redirect_to [ @project, @artifact ], notice: "Artifact was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class ArtifactsController < ApplicationController
 
   def update
     if @artifact.update(artifact_params)
-      redirect_to [@project, @artifact], notice: "Artifact was successfully updated."
+      redirect_to [ @project, @artifact ], notice: "Artifact was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
