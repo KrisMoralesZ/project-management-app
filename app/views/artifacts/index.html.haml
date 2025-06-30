@@ -10,8 +10,8 @@
   %tbody
     - @artifacts.each do |artifact|
       %tr
-        %td= artifact.name
-        %td= artifact.description
+        %td= truncate(artifact.name, length: 15)
+        %td= truncate(artifact.description, length: 80)
         - if artifact.status == 0
           %td= "Open"
         - elsif artifact.status == 1

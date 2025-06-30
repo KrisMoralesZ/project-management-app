@@ -2,12 +2,20 @@
 
 .card
   .card-header.bg-primary.text-white.d-flex.justify-content-between.align-items-center
-    = @artifact.name
+    = truncate(@artifact.name, length: 100)
+    = form_with url: update_status_project_artifact_path(@project, @artifact), method: :patch, local: true do |f|
+      = select_tag "status",
+                      options_for_select([["Open", 0], ["In Progress", 1], ["Closed", 2]], @artifact.status),
+                      class: "form-control", onchange: "this.form.submit()"
   .card-body
     = @artifact.description
   .card-footer.d-flex.justify-content-between
-    -# = link_to 'Edit', edit_project_artifact_path(@artifact), class: "btn btn-outline-primary"
-    = link_to 'Back', project_artifacts_path,class: "btn btn-secondary"
+    %div
+      = link_to 'Edit', edit_project_artifact_path(@project, @artifact), class: "btn btn-outline-primary"
+      = link_to 'Back to Artifacts', project_artifacts_path,class: "btn btn-secondary"
+      = link_to "Back to Project", project_path(@project), class: "btn btn-secondary"
+    %div
+      %p Created at: #{@artifact.created_at.to_formatted_s(:long)}
 
 %h3.mt-5 Comments
 

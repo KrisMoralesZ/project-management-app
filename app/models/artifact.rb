@@ -8,6 +8,7 @@ class Artifact < ApplicationRecord
 
   validates :name, presence: true
   validates :description, presence: true
+  validates :assignee, presence: { message: "You must select an assignee" }
   attr_accessor :upload
   MAX_FILE_SIZE = 10.megabytes
 
