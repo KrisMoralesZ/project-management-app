@@ -1,4 +1,4 @@
-%h2 Invite a new user
+%h4 Invite a new user
 
 %div.card.p-4.shadow-sm.mx-auto
   = form_with model: User.new, url: user_invitation_path, method: :post, scope: :user, local: true, data: { turbo: false } do |f|
