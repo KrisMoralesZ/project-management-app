@@ -3,7 +3,7 @@ class ArtifactsController < ApplicationController
   before_action :set_artifact, only: %i[show edit update destroy]
 
   def index
-    @artifacts = @project.artifacts
+    @artifacts = @project.artifacts.order(sorting_params)
   end
 
   def show; end
@@ -63,5 +63,12 @@ class ArtifactsController < ApplicationController
 
   def artifact_params
     params.require(:artifact).permit(:name, :description, :assignee_id, :status)
+  end
+
+  def sorting_params
+    sortable = %w[name status]
+    sort = sortable.include?(params[:sort]) ? params[:sort] : "created_at"
+    direction = %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    { sort => direction }
   end
 end

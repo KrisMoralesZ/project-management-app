@@ -3,9 +3,11 @@
 %table.table.table-striped
   %thead
     %tr
-      %th Name
+      %th
+        = link_to "Name", request.params.merge(sort: "name", direction: params[:direction] == "asc" ? "desc" : "asc")
       %th Description
-      %th Status
+      %th
+        = link_to "Status", request.params.merge(sort: "status", direction: params[:direction] == "asc" ? "desc" : "asc")
       %th Show
   %tbody
     - @artifacts.each do |artifact|
