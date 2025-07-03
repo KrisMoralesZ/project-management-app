@@ -1,7 +1,7 @@
 class Artifact < ApplicationRecord
   belongs_to :project
   belongs_to :creator, class_name: "User"
-  belongs_to :assignee, class_name: "User", optional: true
+  belongs_to :assignee, class_name: "User"
 
   has_many :comments, as: :commentable, dependent: :destroy
   has_one_attached :attachment
