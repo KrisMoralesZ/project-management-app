@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :project_member do
-    user { nil }
-    project { nil }
+    association :project
+    association :user
   end
 end
