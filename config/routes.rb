@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   root "welcome#index"
-  resources :projects
+
+  resources :projects do
+    get "members/search", to: "project_members#search"
+    post "members/search", to: "project_members#search", as: :search_members
+    post "members/add", to: "project_members#add", as: :add_member
+  end
 
   post "go_to_organization", to: "welcome#redirect_to_subdomain"
 

@@ -1,0 +1,48 @@
+.accordion.accordion-flush{id: "accordionFlushExample"}
+  .accordion-item
+    %h2.accordion-header{id: "flush-headingOne"}
+      %button.accordion-button.collapsed{ type: "button",
+        data: { bs_toggle: "collapse", bs_target: "#flush-collapseOne" },
+        aria: { expanded: "false", controls: "flush-collapseOne" }}
+        %h3 Users working on this project
+
+    #flush-collapseOne.accordion-collapse.collapse{
+      aria: { labelledby: "flush-headingOne" },
+      data: { bs_parent: "#accordionFlushExample" }
+    }
+      .accordion-body
+        - if @project_members.any?
+          %table.table.table-bordered
+            %thead
+              %tr
+                %th Name
+                %th Email
+                %th Actions
+            %tbody
+            - @project_members.each do |member|
+              %tr
+                %td= member.user.name
+                %td= member.user.email
+                -# %td -# = button_to "Remove", project_member_path(@project, member), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger"
+        - else
+          %p.text-muted No members in this project yet.
+
+  .accordion-item
+    %h2.accordion-header{id: "flush-headingThree"}
+      %button.accordion-button.collapsed{ type: "button",
+        data: { bs_toggle: "collapse", bs_target: "#flush-collapseThree" },
+        aria: { expanded: "false", controls: "flush-collapseThree" }
+      }
+        %h3 Add users
+    #flush-collapseThree.accordion-collapse.collapse{
+      aria: { labelledby: "flush-headingThree" },
+      data: { bs_parent: "#accordionFlushExample" }
+    }
+      .accordion-body
+        = turbo_frame_tag "members_search" do
+          = form_with url: project_search_members_path(@project), method: :post, local: false do |f|
+            = f.label :query, "Search for users"
+            = f.text_field :query, class: "form-control"
+            = f.submit "Search", class: "btn btn-primary"
+
+        = turbo_frame_tag "members_search_results"

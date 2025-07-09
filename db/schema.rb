@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_22_174006) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_05_034827) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "artifacts", force: :cascade do |t|
+    t.string "name"
+    t.string "key"
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_artifacts_on_project_id"
+  end
 
   create_table "organizations", force: :cascade do |t|
     t.string "organization_name"
@@ -28,6 +37,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_22_174006) do
     t.index ["email"], name: "index_organizations_on_email", unique: true
     t.index ["reset_password_token"], name: "index_organizations_on_reset_password_token", unique: true
     t.index ["subdomain"], name: "index_organizations_on_subdomain", unique: true
+  end
+
+  create_table "project_members", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_project_members_on_project_id"
+    t.index ["user_id"], name: "index_project_members_on_user_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -68,6 +86,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_22_174006) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "artifacts", "projects"
+  add_foreign_key "project_members", "projects"
+  add_foreign_key "project_members", "users"
   add_foreign_key "projects", "organizations"
   add_foreign_key "users", "organizations"
 end
