@@ -19,9 +19,9 @@ class User < ApplicationRecord
 
   private
   def assign_default_role
-    return if self.role.present?
+    return if role.present?
 
-    if organization && organization.users.count == 0
+    if organization && organization.users.reload.count == 0
       self.role = 0
     else
       self.role = 1

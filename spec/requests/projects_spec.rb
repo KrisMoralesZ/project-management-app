@@ -5,9 +5,13 @@ RSpec.describe "/projects", type: :request do
     sign_in(create(:user), scope: :user)
   end
 
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+  let(:valid_attributes) do {
+    title: "MyString",
+    details: "MyText",
+    expected_completion: "2021-01-01",
+    organization_id: 1
   }
+  end
 
   let(:invalid_attributes) {
     skip("Add a hash of attributes invalid for your model")
