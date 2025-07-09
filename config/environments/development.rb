@@ -80,4 +80,5 @@ Rails.application.configure do
 
   # Config for subdomain
   config.hosts << /.*\.localhost/
+  config.hosts << /.*\.lvh\.me/
 end
