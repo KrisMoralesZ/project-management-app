@@ -1,0 +1,9 @@
+.container-fluid
+  %nav.navbar.navbar-expand-lg.bg-light
+    .container.d-flex.flex-row
+      %a.navbar-brand{:href => "/"}
+        %h1 #{current_organization.organization_name}
+        .container.d-flex.flex-row.justify-content-between.align-items-center
+          .d-flex.justify-content-between.w-100
+            .d-flex.justify-content-between.align-items-center
+              = button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-danger ps-2"

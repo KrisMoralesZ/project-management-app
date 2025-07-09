@@ -1,15 +1,14 @@
-.container-fluid
-  %nav.navbar.navbar-expand-lg.bg-light
-    .container.d-flex.flex-row
-      %a.navbar-brand{:href => "/"}
-        %h3 App Name
-      - if user_signed_in?
-        .container.d-flex.flex-row.justify-content-between.align-items-center
-          .d-flex.justify-content-between.w-100
-            .d-flex.justify-content-between.align-items-center
-              = button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-danger ps-2"
-      - else
-        .container.d-flex.flex-row.justify-content-between.align-items-center
-          .d-flex.justify-content-between
-          .d-flex.justify-content-between.align-items-center
-            = button_to "Login", new_user_session_path, class: "btn btn-primary ps-2"
+%nav.navbar.navbar-expand-lg.bg-light
+  - if organization_signed_in?
+    .container.d-flex.justify-content-between.align-items-center
+      %div.d-flex.justify-content-between.align-items-center
+        %a.navbar-brand{:href => "/"}
+          %h1 #{current_organization.organization_name}
+        = link_to "Dashboard", dashboard_path, :class => "nav-link"
+      %div
+        -# = link_to current_user.name, user_session_path,  :class => "nav-link"
+        = button_to "Logout", destroy_organization_session_path, method: :delete, data: { turbo: false }, class: "btn btn-danger ps-2"
+  - else
+    .container.d-flex.justify-content-between.align-items-center
+      %h1 SASS APP
+      = link_to "Login", new_organization_session_path, class: "btn btn-primary"

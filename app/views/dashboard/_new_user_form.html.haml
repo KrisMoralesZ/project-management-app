@@ -1,0 +1,15 @@
+%h2 Invite a new user
+
+= form_with model: User.new, url: user_invitation_path, method: :post, scope: :user, local: true, data: { turbo: false } do |f|
+  .field
+    = f.label :name, "Name"
+    = f.text_field :name, required: true
+
+  .field
+    = f.label :email, "Email"
+    = f.email_field :email, required: true
+
+  .field
+    = f.label :role, "Rol"
+    = f.select :role, options_for_select([["Member", 1], ["Admin", 0]])
+  = f.submit "Invite User"
