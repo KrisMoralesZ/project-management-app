@@ -18,5 +18,6 @@
     = f.label :expected_completion_date, class: "form-label"
     = f.date_field :expected_completion_date, class: "form-control"
 
-  .d-grid
+  .d-flex.justify-content-between
     = f.submit 'Save', class: "btn btn-primary"
+    = link_to 'Back', projects_path, class: "btn btn-secondary"

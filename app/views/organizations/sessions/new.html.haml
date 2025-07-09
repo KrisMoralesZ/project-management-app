@@ -1,17 +1,16 @@
-%h2 Log in
-= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f|
-  .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .field
-    = f.label :password
-    %br/
-    = f.password_field :password, autocomplete: "current-password"
-  - if devise_mapping.rememberable?
-    .field
-      = f.check_box :remember_me
-      = f.label :remember_me
-  .actions
-    = f.submit "Log in"
-= render "organizations/shared/links"
+%div.card.p-4.shadow-sm.mx-auto.w-50
+  %h2.text-center Login
+  = form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f|
+    .field.d-flex.flex-column.mb-3
+      = f.label :email, class: "form-label m-0"
+      = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Email"
+    .field.d-flex.flex-column.mb-3
+      = f.label :password, class: "form-label m-0"
+      = f.password_field :password, autocomplete: "current-password",  class: "form-control", placeholder: "Password"
+    - if devise_mapping.rememberable?
+      .field.d-flex.align-items-center.justify-center.mb-3
+        = f.check_box :remember_me
+        = f.label :remember_me
+    .actions
+      = f.submit "Log in", class: "btn btn-primary"
+    = render "organizations/shared/links"
