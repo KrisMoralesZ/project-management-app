@@ -1,15 +1,16 @@
-%h2 Invite a new user
+%h4 Invite a new user
 
-= form_with model: User.new, url: user_invitation_path, method: :post, scope: :user, local: true, data: { turbo: false } do |f|
-  .field
-    = f.label :name, "Name"
-    = f.text_field :name, required: true
+%div.card.p-4.shadow-sm.mx-auto
+  = form_with model: User.new, url: user_invitation_path, method: :post, scope: :user, local: true, data: { turbo: false } do |f|
+    .field.d-flex.align-items-center.justify-center.mb-3
+      = f.label :name, "Name", class: "form-label m-0"
+      = f.text_field :name, required: true, class: 'form-control', placeholder: "Enter New Member Name"
 
-  .field
-    = f.label :email, "Email"
-    = f.email_field :email, required: true
+    .field.d-flex.align-items-center.justify-center.mb-3
+      = f.label :email, "Email", class: "form-label m-0"
+      = f.email_field :email, required: true,  class: 'form-control', placeholder: "Enter New Member Email"
 
-  .field
-    = f.label :role, "Rol"
-    = f.select :role, options_for_select([["Member", 1], ["Admin", 0]])
-  = f.submit "Invite User"
+    .field.d-flex.align-items-center.justify-center.mb-3
+      = f.label :role, "Role", class: "form-label m-0"
+      = f.select :role, options_for_select([["Member", 1], ["Admin", 0]]), class: 'form-control'
+    = f.submit "Invite User", class: 'btn btn-primary'

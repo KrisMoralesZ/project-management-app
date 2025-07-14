@@ -4,11 +4,10 @@
       %button.accordion-button.collapsed{ type: "button",
         data: { bs_toggle: "collapse", bs_target: "#flush-collapseOne" },
         aria: { expanded: "false", controls: "flush-collapseOne" }}
-        %h3 Users working on this project
+        %h4 Users working on this project
 
     #flush-collapseOne.accordion-collapse.collapse{
-      aria: { labelledby: "flush-headingOne" },
-      data: { bs_parent: "#accordionFlushExample" }
+      aria: { labelledby: "flush-headingOne" }
     }
       .accordion-body
         - if @project_members.any?
@@ -17,28 +16,26 @@
               %tr
                 %th Name
                 %th Email
-                - if current_user.role == 0
+                - if current_actor.is_a?(Organization)
                   %th Actions
             %tbody
-            - @project_members.each do |member|
-              %tr
-                %td= member.user.name
-                %td= member.user.email
-                -# %td -# = button_to "Remove", project_member_path(@project, member), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger"
+              - @project_members.each do |member|
+                %tr
+                  %td= member.user.name
+                  %td= member.user.email
         - else
           %p.text-muted No members in this project yet.
 
-  - if current_user.role == 0
+  - if organization_signed_in?
     .accordion-item
       %h2.accordion-header{id: "flush-headingThree"}
         %button.accordion-button.collapsed{ type: "button",
           data: { bs_toggle: "collapse", bs_target: "#flush-collapseThree" },
-          aria: { expanded: "false", controls: "flush-collapseThree" }
-        }
-          %h3 Add users
+          aria: { expanded: "false", controls: "flush-collapseThree" }}
+          %h4 Add users
+
       #flush-collapseThree.accordion-collapse.collapse{
-        aria: { labelledby: "flush-headingThree" },
-        data: { bs_parent: "#accordionFlushExample" }
+        aria: { labelledby: "flush-headingThree" }
       }
         .accordion-body
           = turbo_frame_tag "members_search" do

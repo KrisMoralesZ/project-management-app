@@ -27,9 +27,23 @@ class ApplicationController < ActionController::Base
   end
 
   def current_actor
-    current_user || current_organization
+    if user_signed_in?
+      current_user
+    elsif organization_signed_in?
+      current_organization
+    else
+      nil
+    end
   end
   helper_method :current_actor
+
+  def current_user_with_fallback
+    return current_user if user_signed_in?
+    return current_organization.owner if organization_signed_in?
+    nil
+  end
+  helper_method :current_user_with_fallback
+
 
   def admin_user?
     current_actor.is_a?(Organization)
